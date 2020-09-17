@@ -88,6 +88,7 @@ display.flip()
 ```python3
 import os, random
 import game_configs as gc
+from animal import Animal
 
 from pygame import image, transform
 #Create a dictionary for animals with its count
@@ -128,7 +129,51 @@ class Animal:
 > Set images in the screen with height and width
 ```python3
 for tile in tiles:
-  screen.blit(tile.image, (tile.col * gc.IMAGE_SIZE, tile.row * gc.IMAGE_SIZE))
-display.flip()```
+  screen.blit(tile.image, (tile.col * gc.IMAGE_SIZE + gc.MARGIN, tile.row * gc.IMAGE_SIZE + gc.MARGIN))
+display.flip()
+```
+* Congratulations now you have created the ***game loop, game window, placed the images on the window***.
 
+## Video 7: Handling Mouse Events
+* Get the index of the image by mouseclick
+```python3
+def find_index(x, y):
+    row = y // gc.IMAGE_SIZE
+    col = x // gc.IMAGE_SIZE
+    index = row * gc.NUM_TILES_SIDE + col
+    return index
+    
+if e.type == pygame.MOUSEBUTTONDOWN:
+  mouse_x, mouse_y = pygame.mouse.get_pos()
+  #print(mouse_x,mouse_y)
+  index = find_index(mouse_x, mouse_y)
+  print(index)
+  ```
+* Now we have got the index of the image clicked
 
+## Displaying Recent Images
+* To display the last two tiles selected we need to have a list of selected tiles.
+`current_images = []`
+* Updating current_images to the last two images(index) clicked in the mouse handling.
+```python3
+if len(current_images) > 2:
+  current_images = current_images[1:]
+```
+* Showing only last two images and checking if both images are same
+```python3
+for i, tile in enumerate(tiles):
+        image_i = tile.image if i in current_images else tile.box
+        if not tile.skip:
+            screen.blit(image_i, (tile.col * gc.IMAGE_SIZE + gc.MARGIN, tile.row * gc.IMAGE_SIZE + gc.MARGIN))
+
+    if len(current_images) == 2:
+        idx1, idx2 = current_images
+        if tiles[idx1].name == tiles[idx2].name:
+            tiles[idx1].skip = True
+            tiles[idx2].skip = True
+
+    display.flip()
+```
+
+## Video 9: Final Touches
+*

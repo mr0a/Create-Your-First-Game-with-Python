@@ -2,4 +2,4 @@
 > This is a project based course from coursera.  
 Expecting to learn some basics of building games using python.
 
-> Starting time : 12:35 PM
+> Starting time : 12:35 PM 17 Sep 2020

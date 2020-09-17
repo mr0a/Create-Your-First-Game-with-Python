@@ -177,3 +177,5 @@ for i, tile in enumerate(tiles):
 
 ## Video 9: Final Touches
 *
+
+Finished at 7 PM 17 Sep

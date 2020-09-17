@@ -11,4 +11,13 @@ Introduction to Rhyme platform.
 ## Video 2: Project Setup
 > For image assets refer [Kenny](https://www.kenney.nl)'s website.
 
-- Open the project folder which contains the assets in vscode with `code .` in terminal.
+* Open the project folder which contains the assets in vscode with `code .` in terminal.
+* In this folder we will create 3 files (name as you wish):  
+  >
+   - app.py - To contian the game logic.  
+   - game_config.py - To contain game configs and global constants for our game.  
+   - animal.py - To contain our custom class.
+
+## Video 3: Initialization and game loop
+
+* After the initialization the game loop continues to run until user explicitly exits the loop.

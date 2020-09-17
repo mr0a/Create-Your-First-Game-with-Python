@@ -15,7 +15,7 @@ Introduction to Rhyme platform.
 * In this folder we will create 3 files (name as you wish):  
   >
    - app.py - To contian the game logic.  
-   - game_config.py - To contain game configs and global constants for our game.  
+   - game_configs.py - To contain game configs and global constants for our game.  
    - animal.py - To contain our custom class.
 
 ## Video 3: Initialization and game loop
@@ -53,7 +53,7 @@ print('Goodbye!') #Message to print after quiting the game
 ## Video 4: Images, Blit and Flip
 * Here we will learn to load and display images in pygame using image module. 
 * Before moving to that lets set some constants and create list of asset files for our game
-> game_config.py
+> game_configs.py
 ```python3
 import os
 
@@ -81,4 +81,54 @@ screen.blit(matched, (0, 0))
 display.flip()
 ```
 * Now we have learned to **load images** and **update images in screen** and then to the display.
+
+## Video 5: Animal Class
+* Now we will work on our Animal class to create a name and index for each animal image. Each animal image must be instantiated twice.
+> animal.py
+```python3
+import os, random
+import game_configs as gc
+
+from pygame import image, transform
+#Create a dictionary for animals with its count
+animals_count = dict((a, 0) for a in gc.ASSET_FILES)
+
+#Function to return list of animals which appeared less than twice
+def available_animals():
+    return [a for a,c in animals_count.items() if c<2]
+
+class Animal:
+    def __init__(self, index): #index(0-15) to show the image
+        self.index = index
+        self.row = index // gc.NUM_TILES_SIDE #0-3 in row1 and so on
+        self.col = index % gc.NUM_TILES_SIDE #0-3 for col
+        self.name = random.choice(available_animals()) #Choose a animal from list randomly
+        animals_count[self.name] += 1 #Increase the count for that animal
+
+        self.image_path = os.path.join(gc.ASSET_DIR, self.name) #Image path
+        self.image = image.load(self.image_path) #Loading the image using pygame
+        #Transform image to appropriate size after removing margin
+        self.image = transform.scale(self.image, (gc.IMAGE_SIZE - gc.MARGIN, gc.IMAGE_SIZE - gc.MARGIN))
+        
+        #In place of image we need to display a box of grey color
+        self.box = self.image.copy()
+        self.box.fill((200,200,200)) #RGB color to fill
+        self.skip = False #Variable to skip printing matched variables
+```
+* Now we have defined the Animal class
+
+## Video 6: Displaying Animal Images
+* Lets start working on our game logic.
+> Creating a list of images  
+`tiles = [Animal(i) for i in range(0, gc.NUM_TILES_TOTAL)]`
+
+> Fill screen with grey color and place all the images on the screen.
+`screen.fill((255,255,255))`
+
+> Set images in the screen with height and width
+```python3
+for tile in tiles:
+  screen.blit(tile.image, (tile.col * gc.IMAGE_SIZE, tile.row * gc.IMAGE_SIZE))
+display.flip()```
+
 
